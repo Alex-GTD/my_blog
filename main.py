@@ -1,7 +1,6 @@
 from sqlite3 import IntegrityError
 from sqlalchemy import Table, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-# from sqlalchemy.ext.declarative import declarative_base
 from flask import Flask, render_template, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
@@ -18,8 +17,6 @@ from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 from flask_gravatar import Gravatar
 from functools import wraps
 from flask import abort
-
-# Base = declarative_base()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
@@ -66,8 +63,8 @@ class Comment(db.Model):
     text = db.Column(db.Text, nullable=False)
 
 with app.app_context():
-    # db.drop_all()
-    # db.create_all()
+    db.drop_all()
+    db.create_all()
     db.session.commit()
 
 login_manager = LoginManager()
@@ -86,7 +83,6 @@ def admin_only(f):
         # В противном случае продолжайте использовать функцию маршрута
         return f(*args, **kwargs)
     return decorated_function
-
 
 @app.route('/')
 def get_all_posts():
@@ -239,4 +235,4 @@ def delete_post(post_id):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True, port=5000)
+    app.run(host='0.0.0.0', debug=True, port=3000)
